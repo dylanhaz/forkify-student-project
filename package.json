@@ -1,0 +1,20 @@
+{
+  "name": "forkify-project",
+  "version": "1.0.0",
+  "description": "code along project",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dylanhaz/forkify-student-project.git"
+  },
+  "author": "Dylan Hazard",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dylanhaz/forkify-student-project/issues"
+  },
+  "homepage": "https://github.com/dylanhaz/forkify-student-project#readme",
+  "devDependencies": {
+    "webpack": "^4.43.0"
+  }
+}
