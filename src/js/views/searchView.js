@@ -2,6 +2,14 @@ import { elements } from './base';
 
 export const getInput = () => elements.searchInput.value;
 
+export const clearInput = () => {
+    elements.searchInput.value = ''
+};
+
+export const clearResults = () => {
+    elements.searchResultList.innerHTML = '';
+};
+
 const renderRecipe = recipe => {
     const markup = `
     <li>
@@ -17,8 +25,10 @@ const renderRecipe = recipe => {
     </li>
     `;
 
-}
+    elements.searchResultList.insertAdjacentHTML('beforeend', markup)
+
+};
 
 export const renderResults = recipes => {
     recipes.forEach(renderRecipe);
-}
+};
