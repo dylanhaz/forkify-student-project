@@ -1,6 +1,7 @@
 import Search from './models/Search';
 import Recipe from './models/Recipe';
 import * as searchView from './views/searchView';
+import * as recipeView from './views/recipeView';
 import { elements, renderLoader, clearLoader} from './views/base';
 
 /** Global state of the app
@@ -10,6 +11,8 @@ import { elements, renderLoader, clearLoader} from './views/base';
  * -Liked recipes
  */
 const state = {};
+
+alert('Convert Recipe Count to fraction to avoid 0.33333333333 as a result and to make it more understandable')
 
 
 /**
@@ -89,6 +92,8 @@ const controlRecipe = async () => {
 
     if (id) {
         // Prepare UI for changes
+        recipeView.clearResults();
+        renderLoader(elements.recipe);
 
         // Create new recipe object
         state.recipe = new Recipe(id);
@@ -105,7 +110,8 @@ const controlRecipe = async () => {
             state.recipe.calcTime();
     
             // Render recipe
-            console.log(state.recipe);
+            clearLoader();
+            recipeView.renderRecipe(state.recipe)
         } catch (error) {
             console.log('Error happened processing recipe' + error)
         };

@@ -33,6 +33,7 @@ export default class Recipe {
     parseIngredients() {
         const unitsLong = ['tablespoons', 'tablespoon', 'ounces', 'ounce', 'teaspoons', 'teaspoon', 'tsps', 'cups', 'pounds', 'tbsp', 'tbsp', 'oz', 'oz', 'tsps', 'tsp', 'tsps', 'cup', 'pound'];
         const unitsShort = ['tbsp', 'tbsp', 'oz', 'oz', 'tsps', 'tsp', 'tsps', 'cup', 'pound', 'tbsp', 'tbsp', 'oz', 'oz', 'tsps', 'tsp', 'tsps', 'cup', 'pound'];
+        const units = [...unitsShort, 'kg', 'g']
 
         const newIngredients = this.ingredients.map(el => {
             // Uniform units
@@ -46,17 +47,23 @@ export default class Recipe {
 
             // parse ingredients into count, unit and ingredient
             const arrIng = ingredient.split(' ');
-            const unitIndex = arrIng.findIndex(el2 => unitsShort.includes(el2));
+            const unitIndex = arrIng.findIndex(el2 => units.includes(el2));
 
             let objIng;
             if (unitIndex > -1) {
                 // There is a unit
                 // Ex. 4 1/2 cups, arrCount is [4, 1/2];
                 // Ex. 4 cups, arrCount is [4];
+
+                /**
+                 * CONVERT TO FRACTION!!!
+                 */
+
+
                 const arrCount = arrIng.slice(0, unitIndex);
                 let count;
                 if (arrCount.length === 1) {
-                    count = eval(arrIng[0].replace('-', '+'));
+                    count = eval( arrIng[0].replace('-', '+'));
                 } else {
                     count = eval(arrIng.slice(0, unitIndex).join('+'));
                 }
