@@ -1,4 +1,8 @@
 import axios from 'axios'
+import { convertDecimalToFraction, splitFraction } from './MathCustom';
+
+
+
 
 export default class Recipe {
     constructor(id) {
@@ -60,12 +64,57 @@ export default class Recipe {
                  */
 
 
+
+                 
+
+
                 const arrCount = arrIng.slice(0, unitIndex);
                 let count;
+                //check if arrCount is a number like ['3'] or [2-1/2]
                 if (arrCount.length === 1) {
-                    count = eval( arrIng[0].replace('-', '+'));
+                    //check if the string contains a dash, if so it needs to be seperated from the fraction
+                    if (arrIng[0].includes('-')) {
+                        //split the fraction 
+                        let splitNum;
+                        splitNum = arrIng[0].split('-');
+                        //conver the fraction part into a decimal
+                        splitNum[1] = splitFraction(splitNum[1]);
+                        // replace the new value into the original ingredients array
+                        arrIng[0] = parseInt(splitNum[0]) + splitNum[1];
+                    }
+                    arrIng[0] = parseInt(arrIng[0]);
+                    //display to UI as a fraction instead of decimal
+                    count = arrIng[0];
+
+                    /**
+                     * This is where you can change the number of servings. (Ex. count *= 2)
+                     */
+                    
+                    // count *= 2;
+
+
+                    count = convertDecimalToFraction(count);
+
+
                 } else {
-                    count = eval(arrIng.slice(0, unitIndex).join('+'));
+                    // if already seperated, (Ex. ['2', 3/4, 'cup']), move number and fraction into their own var
+                    count = arrIng.slice(0, unitIndex).join('%%%');
+                    count = count.split('%%%');
+                    //parse the whole number
+                    count[0] = parseInt(count[0]);
+                    //conver the fraction half into a decimal
+                    count[1] = splitFraction(count[1]);
+                    //join the two together
+                    count = count[0] + count[1]
+
+                    /**
+                     * This is where you can change the number of servings. (Ex. count *= 2)
+                     */
+
+                    // count *= 2;
+                    
+                    //display to UI as a fraction instead of decimal
+                    count = convertDecimalToFraction(count);
                 }
 
                 objIng = {

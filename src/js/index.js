@@ -12,7 +12,12 @@ import { elements, renderLoader, clearLoader} from './views/base';
  */
 const state = {};
 
-alert('Convert Recipe Count to fraction to avoid 0.33333333333 as a result and to make it more understandable')
+
+/**
+ * Ex. 8/12
+ * 
+ */
+
 
 
 /**
@@ -88,7 +93,6 @@ elements.searchResPages.addEventListener('click', e => {
 const controlRecipe = async () => {
     // Get ID from url
     const id = window.location.hash.replace('#', '');
-    console.log(id);
 
     if (id) {
         // Prepare UI for changes
@@ -104,6 +108,7 @@ const controlRecipe = async () => {
         // Get recipe data and parse ingredients
         try {
             await state.recipe.getRecipe();
+            console.log(state.recipe);
             state.recipe.parseIngredients();
             // Calculate servings and time
             state.recipe.calcServings();
