@@ -99,6 +99,10 @@ const controlRecipe = async () => {
         recipeView.clearResults();
         renderLoader(elements.recipe);
 
+        if (state.search) searchView.highlightSelected(id);
+
+        
+
         // Create new recipe object
         state.recipe = new Recipe(id);
 
@@ -114,6 +118,7 @@ const controlRecipe = async () => {
             // Calculate servings and time
             state.recipe.calcServings();
             state.recipe.calcTime();
+            
     
             // Render recipe
             clearLoader();
