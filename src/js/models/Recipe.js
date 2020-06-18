@@ -2,6 +2,9 @@ import axios from 'axios'
 import { convertDecimalToFraction, splitFraction } from '../scripts/mathCustom';
 
 
+//FOR TESTING
+let numServings = 3;
+
 
 
 export default class Recipe {
@@ -34,16 +37,21 @@ export default class Recipe {
         this.servings = 4;
     }
 
+    
     parseIngredients() {
         const unitsLong = ['tablespoons', 'tablespoon', 'ounces', 'ounce', 'teaspoons', 'teaspoon', 'tsps', 'cups', 'pounds', 'tbsp', 'tbsp', 'oz', 'oz', 'tsps', 'tsp', 'tsps', 'cup', 'pound'];
         const unitsShort = ['tbsp', 'tbsp', 'oz', 'oz', 'tsps', 'tsp', 'tsps', 'cup', 'pound', 'tbsp', 'tbsp', 'oz', 'oz', 'tsps', 'tsp', 'tsps', 'cup', 'pound'];
         const units = [...unitsShort, 'kg', 'g']
 
         const newIngredients = this.ingredients.map(el => {
+            //Remove whitespace from begining and end
+            el = el.trim();
+            // let ingredient = el.replace(/^[^\s].+[^\s]$/, '');
+            
             // Uniform units
             let ingredient = el.toLowerCase();
             unitsLong.forEach((unit, i) => {
-                ingredient = ingredient.replace(unit, unitsShort[i]);
+                ingredient = ingredient.replace(unit, units[i]);
             });
             // Remove parentheses
             ingredient = ingredient.replace(/ *\([^)]*\) */g, ' ');
@@ -52,28 +60,25 @@ export default class Recipe {
             // parse ingredients into count, unit and ingredient
             const arrIng = ingredient.split(' ');
             const unitIndex = arrIng.findIndex(el2 => units.includes(el2));
-
+            
             let objIng;
-            if (unitIndex > -1) {
+            if (unitIndex > 0) {
+                
                 // There is a unit
                 // Ex. 4 1/2 cups, arrCount is [4, 1/2];
                 // Ex. 4 cups, arrCount is [4];
-
-                /**
-                 * CONVERT TO FRACTION!!!
-                 */
-
-
-
-                 
-
-
+                
+                
+                
                 const arrCount = arrIng.slice(0, unitIndex);
+                
                 let count;
                 //check if arrCount is a number like ['3'] or [2-1/2]
                 if (arrCount.length === 1) {
+                    
                     //check if the string contains a dash, if so it needs to be seperated from the fraction
                     if (arrIng[0].includes('-')) {
+                        
                         //split the fraction 
                         let splitNum;
                         splitNum = arrIng[0].split('-');
@@ -85,12 +90,12 @@ export default class Recipe {
                     arrIng[0] = parseInt(arrIng[0]);
                     //display to UI as a fraction instead of decimal
                     count = arrIng[0];
-
+                    
                     /**
                      * This is where you can change the number of servings. (Ex. count *= 2)
                      */
                     
-                    // count *= 2;
+                    count *= numServings;
 
 
                     count = convertDecimalToFraction(count);
@@ -111,7 +116,7 @@ export default class Recipe {
                      * This is where you can change the number of servings. (Ex. count *= 2)
                      */
 
-                    // count *= 2;
+                    count *= numServings;
                     
                     //display to UI as a fraction instead of decimal
                     count = convertDecimalToFraction(count);
@@ -125,15 +130,23 @@ export default class Recipe {
             } else if (parseInt(arrIng[0], 10)) {
                 //There is NO unit, but 1st element is a number
                 objIng = {
-                    count: parseInt(arrIng[0], 10),
+                    count: parseInt(arrIng[0], 10) * numServings,
                     unit: '',
+                    ingredient: arrIng.slice(1).join(' ')
+                };
+
+            } else if (unitIndex === 0) {
+                //Unit is in 1st position
+                objIng = {
+                    count: 1 * numServings,
+                    unit: arrIng[unitIndex],
                     ingredient: arrIng.slice(1).join(' ')
                 };
 
             } else if (unitIndex === -1) {
                 //There is NO unit and no Number in 1st position
                 objIng = {
-                    count: 1,
+                    count: '',
                     unit: '',
                     ingredient
                 };
