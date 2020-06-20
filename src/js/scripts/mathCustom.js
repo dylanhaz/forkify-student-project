@@ -2,10 +2,19 @@
      
      
     dec = dec.toString();
+
+    
    
     //Ex. dec = 1.25, should be 1 1/4
     //First check if number has a decimal
     if (dec % 1 != 0) {
+        
+        const checkForZero = () => {
+            if (splitArr[0] === '0') {
+                splitArr.shift();
+                return `${splitArr}`;
+            }
+        }
         //First Split the number
         // splitArr = ['1', '25']
         let splitArr = dec.split('.');
@@ -41,18 +50,31 @@
             if (fraction % i === 0 && 100 % i === 0) {
                 //return fraction as a string
                 splitArr[1] = `${fraction/i}/${100/i}`
+
+                
+            
+                checkForZero()
+                
                 splitArr = splitArr.join(' ');
                 return splitArr;
             }
         }
         //no common factor found
         splitArr[1] = `${fraction}/${100}`
+
+        checkForZero()
+
         splitArr = splitArr.join(' ');
         return splitArr;
+
+        
 
     }
     //If number doesn't have a decimal, return
     return dec;
+
+
+    
 };
 
 export const splitFraction = fraction => {

@@ -3,7 +3,7 @@ import { convertDecimalToFraction, splitFraction } from '../scripts/mathCustom';
 
 
 //FOR TESTING
-let numServings = 3;
+// let numServings = 3;
 
 
 
@@ -34,7 +34,7 @@ export default class Recipe {
     }
 
     calcServings() {
-        this.servings = 4;
+        this.servings = 3;
     }
 
     
@@ -73,6 +73,14 @@ export default class Recipe {
                 const arrCount = arrIng.slice(0, unitIndex);
                 
                 let count;
+
+                //check if recipe uses a dash for the count
+                //HARDCODED!!!!!!!!! Not for production use
+                if(arrIng[0] === "1-2") arrIng[0] = "2";
+
+
+
+                console.log(arrCount, arrIng)
                 //check if arrCount is a number like ['3'] or [2-1/2]
                 if (arrCount.length === 1) {
                     
@@ -95,7 +103,7 @@ export default class Recipe {
                      * This is where you can change the number of servings. (Ex. count *= 2)
                      */
                     
-                    count *= numServings;
+                    // count *= numServings;
 
 
                     count = convertDecimalToFraction(count);
@@ -116,7 +124,7 @@ export default class Recipe {
                      * This is where you can change the number of servings. (Ex. count *= 2)
                      */
 
-                    count *= numServings;
+                    // count *= numServings;
                     
                     //display to UI as a fraction instead of decimal
                     count = convertDecimalToFraction(count);
@@ -130,7 +138,7 @@ export default class Recipe {
             } else if (parseInt(arrIng[0], 10)) {
                 //There is NO unit, but 1st element is a number
                 objIng = {
-                    count: parseInt(arrIng[0], 10) * numServings,
+                    count: parseInt(arrIng[0], 10),
                     unit: '',
                     ingredient: arrIng.slice(1).join(' ')
                 };
@@ -138,7 +146,7 @@ export default class Recipe {
             } else if (unitIndex === 0) {
                 //Unit is in 1st position
                 objIng = {
-                    count: 1 * numServings,
+                    count: 1,
                     unit: arrIng[unitIndex],
                     ingredient: arrIng.slice(1).join(' ')
                 };
@@ -157,5 +165,21 @@ export default class Recipe {
 
         });
         this.ingredients = newIngredients;
+    }
+
+    updateServings (type) {
+
+        const newServings = type === 'dec' ? this.servings -1 : this.servings +1;
+
+        this.servings = newServings;
+        //ingredients
+        this.ingredients.forEach(ing => {
+            // console.log(ing.count)
+            if(ing.count) {
+                ing.count *= newServings / 2
+                ing.count = convertDecimalToFraction(ing.count)
+            }
+        });
+
     }
 }
