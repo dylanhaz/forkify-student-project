@@ -117,8 +117,9 @@ const controlRecipe = async () => {
             state.recipe.calcServings();
             state.recipe.calcTime();
             state.recipe.parseIngredients();
+            
             // console.log(state.recipe);
-            state.recipe.updateServings('dec');
+            
             
     
             // Render recipe
@@ -133,3 +134,22 @@ const controlRecipe = async () => {
 };
 
  ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
+
+
+ //Handling recipe button clicks
+ elements.recipe.addEventListener('click', e => {
+     console.log(state.recipe);
+    //  console.log(e.target.matches('.btn-decrease *'))
+     if (e.target.matches('.btn-decrease *')) {
+         if (state.recipe.servings > 1) {
+             state.recipe.updateServings('dec');
+             recipeView.updateServingsIngredients(state.recipe);
+         }
+        // Decrease button is clicked
+     } else if (e.target.matches('.btn-increase *')) {
+        // Increase button is clicked
+        state.recipe.updateServings('inc');
+        recipeView.updateServingsIngredients(state.recipe);
+     }
+
+ })

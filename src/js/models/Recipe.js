@@ -34,7 +34,7 @@ export default class Recipe {
     }
 
     calcServings() {
-        this.servings = 3;
+        this.servings = 1;
     }
 
     
@@ -80,7 +80,7 @@ export default class Recipe {
 
 
 
-                console.log(arrCount, arrIng)
+                // console.log(arrCount, arrIng)
                 //check if arrCount is a number like ['3'] or [2-1/2]
                 if (arrCount.length === 1) {
                     
@@ -106,7 +106,7 @@ export default class Recipe {
                     // count *= numServings;
 
 
-                    count = convertDecimalToFraction(count);
+                    // count = convertDecimalToFraction(count);
 
 
                 } else {
@@ -127,7 +127,7 @@ export default class Recipe {
                     // count *= numServings;
                     
                     //display to UI as a fraction instead of decimal
-                    count = convertDecimalToFraction(count);
+                    // count = convertDecimalToFraction(count);
                 }
 
                 objIng = {
@@ -168,18 +168,25 @@ export default class Recipe {
     }
 
     updateServings (type) {
+        console.log(type);
 
         const newServings = type === 'dec' ? this.servings -1 : this.servings +1;
 
-        this.servings = newServings;
+        // this.servings = newServings;
         //ingredients
         this.ingredients.forEach(ing => {
             // console.log(ing.count)
             if(ing.count) {
-                ing.count *= newServings / 2
-                ing.count = convertDecimalToFraction(ing.count)
+                
+                ing.count *= (newServings / this.servings);
+                
+                console.log(ing.count);
+                // ing.count = convertDecimalToFraction(ing.count)
             }
         });
+
+        this.servings = newServings;
+        // console.log(this.servings)
 
     }
 }

@@ -9,16 +9,18 @@
     //First check if number has a decimal
     if (dec % 1 != 0) {
         
-        const checkForZero = () => {
-            if (splitArr[0] === '0') {
-                splitArr.shift();
-                return `${splitArr}`;
-            }
-        }
+        // const checkForZero = () => {
+        //     console.log(splitArr);
+        //     if (splitArr[0] === '0') {
+        //         splitArr.shift();
+        //         return `${splitArr}`;
+        //     }
+        // }
         //First Split the number
         // splitArr = ['1', '25']
         let splitArr = dec.split('.');
         //seperate decimal to its own var
+        console.log(splitArr);
         let fraction = splitArr[1];
 
         //round dec to nearest 100th
@@ -53,7 +55,7 @@
 
                 
             
-                checkForZero()
+                // checkForZero()
                 
                 splitArr = splitArr.join(' ');
                 return splitArr;
@@ -62,7 +64,7 @@
         //no common factor found
         splitArr[1] = `${fraction}/${100}`
 
-        checkForZero()
+        // checkForZero()
 
         splitArr = splitArr.join(' ');
         return splitArr;
