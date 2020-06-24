@@ -20,7 +20,7 @@
         // splitArr = ['1', '25']
         let splitArr = dec.split('.');
         //seperate decimal to its own var
-        console.log(splitArr);
+        // console.log(splitArr);
         let fraction = splitArr[1];
 
         //round dec to nearest 100th

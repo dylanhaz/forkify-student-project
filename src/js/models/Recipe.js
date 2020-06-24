@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { convertDecimalToFraction, splitFraction } from '../scripts/mathCustom';
+import { splitFraction } from '../scripts/mathCustom';
 
 
 //FOR TESTING
