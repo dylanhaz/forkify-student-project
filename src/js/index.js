@@ -3,6 +3,7 @@ import Recipe from './models/Recipe';
 import List from './models/List';
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
+import * as listView from './views/listView';
 import { elements, renderLoader, clearLoader} from './views/base';
 
 /** Global state of the app
@@ -136,11 +137,12 @@ const controlRecipe = async () => {
 
  ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
 
+ 
+
 
  //Handling recipe button clicks
  elements.recipe.addEventListener('click', e => {
-     console.log(state.recipe);
-    //  console.log(e.target.matches('.btn-decrease *'))
+    
      if (e.target.matches('.btn-decrease *')) {
          if (state.recipe.servings > 1) {
              state.recipe.updateServings('dec');
@@ -151,8 +153,52 @@ const controlRecipe = async () => {
         // Increase button is clicked
         state.recipe.updateServings('inc');
         recipeView.updateServingsIngredients(state.recipe);
+     } else if(e.target.matches('.recipe__btn--add *')) {
+        if(!state.list){
+            state.list = new List();
+        }
+         //Add to shopping cart
+        //  console.log(state.recipe);
+         //Clear the UI
+         elements.shopping.innerHTML = '';
+         state.recipe.ingredients.forEach(e => {
+             state.list.addItem(e.count, e.unit, e.ingredient);
+         });
+         //Check for duplicates
+         state.list.checkForDuplicates();
+      
+         state.list.items.forEach(e => {
+            listView.renderItem(e);
+         });
      }
 
  });
 
-window.l = new List();
+ elements.shopping.addEventListener('click', e => {
+    //Delete recipe Item
+     if (e.target.matches('.shopping__delete *')) {
+         //Find the item's ID
+         state.list.deleteItem(e.target.closest('.shopping__item').dataset.itemid);
+        //Clear the UI
+        elements.shopping.innerHTML = '';
+        state.list.checkForDuplicates();
+        //Re-populate the UI with new list items
+        state.list.items.forEach(e => {
+            listView.renderItem(e);
+         });
+     }
+ });
+
+ //update count
+ elements.shopping.addEventListener('change', (e) => {
+     const itemId = e.target.parentElement.parentElement.dataset.itemid;
+     const value = parseFloat(e.target.value, 10);
+     if (value >= 0) {
+         state.list.updateCount(itemId, value);
+     } else if (value < 0) {
+         e.target.value = 0;
+     };
+ });
+     
+
+// window.l = new List();
