@@ -4,6 +4,7 @@ import List from './models/List';
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
 import * as listView from './views/listView';
+import * as likesView from './views/likesView';
 import { elements, renderLoader, clearLoader} from './views/base';
 import Likes from './models/Likes';
 
@@ -127,9 +128,13 @@ const controlRecipe = async () => {
     
             // Render recipe
             clearLoader();
-            recipeView.renderRecipe(state.recipe)
+            recipeView.renderRecipe(
+                state.recipe,
+                state.likes.isLiked(id)
+                )
         } catch (error) {
-            console.log('Error happened processing recipe' + error)
+            console.log(error);
+            console.log('Error happened processing recipe' + error);
         };
 
 
@@ -139,7 +144,11 @@ const controlRecipe = async () => {
  ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
 
  
+/**
+ * just for testing
+ */
 
+state.likes = new Likes();
 
 
 
@@ -160,6 +169,7 @@ const controlRecipe = async () => {
             state.recipe.img
         );
         // Toggle the like button
+        likesView.toggleLikeBtn(true);
 
         // Add like to UI list
         console.log(state.likes)
@@ -169,7 +179,7 @@ const controlRecipe = async () => {
         //Remove like from the state
         state.likes.deleteLike(currentID);
         //Toggle the like button
-
+        likesView.toggleLikeBtn(false);
         // Remove like from UI list
         console.log(state.likes)
     }
