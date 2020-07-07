@@ -149,6 +149,7 @@ const controlRecipe = async () => {
  */
 
 state.likes = new Likes();
+likesView.toggleLikeMenu(state.likes.getNumLikes());
 
 
 
@@ -172,7 +173,7 @@ state.likes = new Likes();
         likesView.toggleLikeBtn(true);
 
         // Add like to UI list
-        console.log(state.likes)
+        likesView.renderLike(newLike);
 
     //User HAS liked recipe
     } else {
@@ -181,8 +182,9 @@ state.likes = new Likes();
         //Toggle the like button
         likesView.toggleLikeBtn(false);
         // Remove like from UI list
-        console.log(state.likes)
+        likesView.deleteLike(currentID);
     }
+    likesView.toggleLikeMenu(state.likes.getNumLikes());
  };
 
 
@@ -251,6 +253,15 @@ state.likes = new Likes();
         controlLike();
     }
 
+});
+
+//Refresh page on liked recipe click
+document.querySelector('.likes').addEventListener('click', e => {
+    if (e.target.matches('.likes__list *')) {
+        setTimeout( () => {
+            location.reload();
+        }, 500);
+    }
 });
      
 
