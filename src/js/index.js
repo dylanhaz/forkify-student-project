@@ -148,8 +148,7 @@ const controlRecipe = async () => {
  * just for testing
  */
 
-state.likes = new Likes();
-likesView.toggleLikeMenu(state.likes.getNumLikes());
+
 
 
 
@@ -186,6 +185,18 @@ likesView.toggleLikeMenu(state.likes.getNumLikes());
     }
     likesView.toggleLikeMenu(state.likes.getNumLikes());
  };
+
+ // Restore liked recipes on page load
+ window.addEventListener('load', () => {
+    state.likes = new Likes();
+    //restore likes
+    state.likes.readStorage();
+    //toggle like menu button
+    likesView.toggleLikeMenu(state.likes.getNumLikes());
+
+    // render the existing likes
+    state.likes.likes.forEach(like => likesView.renderLike(like));
+ })
 
 
  /**
@@ -260,7 +271,7 @@ document.querySelector('.likes').addEventListener('click', e => {
     if (e.target.matches('.likes__list *')) {
         setTimeout( () => {
             location.reload();
-        }, 500);
+        }, 1);
     }
 });
      
