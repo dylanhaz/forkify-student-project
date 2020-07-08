@@ -2,10 +2,6 @@ import axios from 'axios'
 import { splitFraction } from '../scripts/mathCustom';
 
 
-//FOR TESTING
-// let numServings = 3;
-
-
 
 export default class Recipe {
     constructor(id) {
@@ -75,12 +71,11 @@ export default class Recipe {
                 let count;
 
                 //check if recipe uses a dash for the count
-                //HARDCODED!!!!!!!!! Not for production use
+                //HARDCODED!!!!
                 if(arrIng[0] === "1-2") arrIng[0] = "2";
 
 
 
-                // console.log(arrCount, arrIng)
                 //check if arrCount is a number like ['3'] or [2-1/2]
                 if (arrCount.length === 1) {
                     
@@ -168,25 +163,21 @@ export default class Recipe {
     }
 
     updateServings (type) {
-        console.log(type);
 
         const newServings = type === 'dec' ? this.servings -1 : this.servings +1;
 
         // this.servings = newServings;
         //ingredients
         this.ingredients.forEach(ing => {
-            // console.log(ing.count)
             if(ing.count) {
                 
                 ing.count *= (newServings / this.servings);
                 
-                console.log(ing.count);
                 // ing.count = convertDecimalToFraction(ing.count)
             }
         });
 
         this.servings = newServings;
-        // console.log(this.servings)
 
     }
 }

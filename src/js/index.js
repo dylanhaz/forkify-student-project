@@ -17,10 +17,6 @@ import Likes from './models/Likes';
 const state = {};
 
 
-/**
- * Ex. 8/12
- * 
- */
 
 
 
@@ -29,17 +25,8 @@ const state = {};
  */
 const controlSearch = async () => {
     // 1) Get query from view
-    /**
-     * USE THIS INSTEAD AFTER TESTING!!!!!!!!!!!
-     */  
+  
     const query = searchView.getInput();
-
-    /**
-     * FOR TESTING ONLY!!!!
-     */
-    // const query = 'pizza';
-    //////////////////////////////////////
-    //////////////////////////////////////
 
     if(query) {
         // 2) New search object and add to state
@@ -70,16 +57,7 @@ elements.searchForm.addEventListener('submit', e => {
     controlSearch();
 });
 
-/**
- * FOR TESTING ONLY
- */
-// window.addEventListener('load', e => {
-//     e.preventDefault();
-//     controlSearch();
-// });
 
-/////////////////////////////////////
-////////////////////////////////////
 
 elements.searchResPages.addEventListener('click', e => {
     const btn = e.target.closest('.btn-inline');
@@ -110,19 +88,17 @@ const controlRecipe = async () => {
         // Create new recipe object
         state.recipe = new Recipe(id);
 
-        //Testing!!!!!!!!!!!
-        // window.r = state.recipe;
 
         // Get recipe data and parse ingredients
         try {
             await state.recipe.getRecipe();
-            // console.log(state.recipe);
+            
             // Calculate servings and time
             state.recipe.calcServings();
             state.recipe.calcTime();
             state.recipe.parseIngredients();
             
-            // console.log(state.recipe);
+          
             
             
     
@@ -133,7 +109,6 @@ const controlRecipe = async () => {
                 state.likes.isLiked(id)
                 )
         } catch (error) {
-            console.log(error);
             console.log('Error happened processing recipe' + error);
         };
 
@@ -142,14 +117,6 @@ const controlRecipe = async () => {
 };
 
  ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
-
- 
-/**
- * just for testing
- */
-
-
-
 
 
  /**
@@ -246,8 +213,7 @@ const controlRecipe = async () => {
        if(!state.list){
            state.list = new List();
        }
-        //Add to shopping cart
-       //  console.log(state.recipe);
+     //Add to shopping cart
         //Clear the UI
         elements.shopping.innerHTML = '';
         state.recipe.ingredients.forEach(e => {
@@ -274,6 +240,3 @@ document.querySelector('.likes').addEventListener('click', e => {
         }, 1);
     }
 });
-     
-
-// window.l = new List();
